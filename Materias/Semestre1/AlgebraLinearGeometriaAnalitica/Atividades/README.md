@@ -1,0 +1,1 @@
+Aqui estão as atividades exercidas durante o semestre proposto da matéria.
