@@ -1,11 +1,1106 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Vitrine acadêmica — atividades, aulas, resumos e projetos da faculdade.">
+  <title>Vitrine Acadêmica | Ivin</title>
+
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --surface: #111820;
+      --surface-2: #17212b;
+      --border: #263442;
+      --text: #edf2f7;
+      --muted: #93a4b5;
+      --accent: #58a6ff;
+      --accent-2: #7ee787;
+      --danger: #ff7b72;
+      --shadow: 0 18px 45px rgba(0, 0, 0, .28);
+      --radius: 14px;
+      --sidebar-width: 330px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 15% 0%, rgba(88, 166, 255, .10), transparent 28rem),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: var(--sidebar-width) 1fr;
+    }
+
+    /* ---------- Sidebar ---------- */
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 22px 16px;
+      background: rgba(13, 18, 24, .92);
+      border-right: 1px solid var(--border);
+      backdrop-filter: blur(14px);
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 10px 20px;
+      margin-bottom: 8px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      color: white;
+      font-weight: 800;
+      box-shadow: 0 8px 25px rgba(88, 166, 255, .18);
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 15px;
+    }
+
+    .brand span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .tree-title {
+      padding: 8px 10px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+    }
+
+    .tree {
+      font-size: 14px;
+    }
+
+    .tree details {
+      margin: 2px 0;
+    }
+
+    .tree summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 9px;
+      border-radius: 8px;
+      color: #dce6ef;
+      user-select: none;
+    }
+
+    .tree summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .tree summary::before {
+      content: "›";
+      width: 12px;
+      color: var(--muted);
+      transition: transform .15s ease;
+    }
+
+    .tree details[open] > summary::before {
+      transform: rotate(90deg);
+    }
+
+    .tree .root-summary::before {
+      content: "";
+      width: 0;
+    }
+
+    .tree summary:hover,
+    .tree .file:hover {
+      background: rgba(255,255,255,.05);
+    }
+
+    .tree .children {
+      margin-left: 17px;
+      padding-left: 9px;
+      border-left: 1px solid #25313d;
+    }
+
+    .tree .file {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 9px;
+      border-radius: 8px;
+      color: #c8d3de;
+      cursor: pointer;
+    }
+
+    .tree .file.active {
+      background: rgba(88, 166, 255, .12);
+      color: #fff;
+      outline: 1px solid rgba(88, 166, 255, .18);
+    }
+
+    .icon {
+      width: 18px;
+      text-align: center;
+      opacity: .9;
+      flex: 0 0 18px;
+    }
+
+    /* ---------- Main ---------- */
+
+    .main {
+      min-width: 0;
+      padding: 42px clamp(20px, 5vw, 70px) 60px;
+    }
+
+    .hero {
+      max-width: 1100px;
+      margin: 0 auto 28px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 850px;
+      font-size: clamp(34px, 5vw, 62px);
+      line-height: 1.03;
+      letter-spacing: -.045em;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 0 15px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 700;
+      font-size: 13px;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      border-color: #3c5062;
+      background: var(--surface-2);
+    }
+
+    .button.primary {
+      border-color: rgba(88, 166, 255, .4);
+      background: rgba(88, 166, 255, .12);
+      color: #b9dcff;
+    }
+
+    .button.linkedin {
+      border-color: rgba(126, 231, 135, .25);
+      background: rgba(126, 231, 135, .08);
+      color: #b8f5be;
+    }
+
+    .content-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .card {
+      background: rgba(17, 24, 32, .88);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .card-header {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .card-header h2 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .card-header span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .overview {
+      padding: 20px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .stat {
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: rgba(255,255,255,.02);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 24px;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .welcome {
+      color: #c9d5df;
+      line-height: 1.75;
+      font-size: 14px;
+    }
+
+    .quick-links {
+      display: grid;
+      gap: 9px;
+    }
+
+    .quick-link {
+      display: block;
+      padding: 13px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(255,255,255,.02);
+      transition: background .15s ease, border-color .15s ease;
+    }
+
+    .quick-link:hover {
+      background: rgba(255,255,255,.05);
+      border-color: #3a4b5b;
+    }
+
+    .quick-link strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .quick-link small {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+    }
+
+    /* ---------- Viewer ---------- */
+
+    .viewer {
+      min-height: 500px;
+    }
+
+    .viewer-body {
+      padding: 24px;
+    }
+
+    .viewer-empty {
+      min-height: 430px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .viewer-empty .big-icon {
+      font-size: 46px;
+      margin-bottom: 10px;
+    }
+
+    .viewer-empty h3 {
+      margin: 0 0 7px;
+      color: var(--text);
+    }
+
+    .viewer-empty p {
+      max-width: 470px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    .path {
+      color: var(--muted);
+      font: 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      word-break: break-all;
+    }
+
+    .file-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .file-toolbar h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .mini-button {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface-2);
+      color: var(--text);
+      padding: 7px 10px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .mini-button:hover {
+      border-color: #456;
+    }
+
+    .markdown {
+      color: #d7e0e8;
+      line-height: 1.75;
+      font-size: 15px;
+    }
+
+    .markdown h1,
+    .markdown h2,
+    .markdown h3,
+    .markdown h4 {
+      margin: 1.5em 0 .55em;
+      letter-spacing: -.02em;
+    }
+
+    .markdown h1 { font-size: 30px; }
+    .markdown h2 { font-size: 24px; }
+    .markdown h3 { font-size: 19px; }
+
+    .markdown p {
+      margin: .8em 0;
+    }
+
+    .markdown a {
+      color: #79baff;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .markdown ul,
+    .markdown ol {
+      padding-left: 24px;
+    }
+
+    .markdown code {
+      padding: 2px 5px;
+      border-radius: 5px;
+      background: #0a0f14;
+      color: #b8d9f5;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .9em;
+    }
+
+    .markdown pre {
+      overflow-x: auto;
+      padding: 15px;
+      border-radius: 10px;
+      background: #080c10;
+      border: 1px solid var(--border);
+    }
+
+    .markdown pre code {
+      padding: 0;
+      background: transparent;
+    }
+
+    .markdown blockquote {
+      margin: 1em 0;
+      padding: 4px 16px;
+      border-left: 3px solid var(--accent);
+      color: var(--muted);
+    }
+
+    .source {
+      margin: 0;
+      overflow: auto;
+      padding: 18px;
+      border-radius: 10px;
+      background: #080c10;
+      border: 1px solid var(--border);
+      color: #c9d5df;
+      font: 13px/1.65 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      white-space: pre;
+    }
+
+    .error {
+      padding: 16px;
+      border: 1px solid rgba(255, 123, 114, .25);
+      border-radius: 10px;
+      background: rgba(255, 123, 114, .07);
+      color: #ffb5af;
+      line-height: 1.6;
+    }
+
+    footer {
+      max-width: 1100px;
+      margin: 24px auto 0;
+      color: #6f8090;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    /* ---------- Mobile ---------- */
+
+    .mobile-topbar {
+      display: none;
+    }
+
+    @media (max-width: 900px) {
+      .app {
+        display: block;
+      }
+
+      .sidebar {
+        position: fixed;
+        inset: 0 auto 0 0;
+        width: min(88vw, 330px);
+        transform: translateX(-100%);
+        transition: transform .2s ease;
+        box-shadow: 20px 0 50px rgba(0,0,0,.4);
+      }
+
+      body.menu-open .sidebar {
+        transform: translateX(0);
+      }
+
+      .mobile-topbar {
+        display: flex;
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        background: rgba(11, 15, 20, .88);
+        border-bottom: 1px solid var(--border);
+        backdrop-filter: blur(12px);
+      }
+
+      .mobile-topbar button {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--text);
+        padding: 7px 10px;
+        cursor: pointer;
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .main {
+        padding-top: 30px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .main {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+
+      .viewer-body {
+        padding: 18px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <h1>Teste</h1>
+  <div class="mobile-topbar">
+    <strong>Vitrine Acadêmica</strong>
+    <button onclick="toggleMenu()" aria-label="Abrir menu">☰</button>
+  </div>
+
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">IV</div>
+        <div>
+          <strong>Study Hub</strong>
+          <span>Mapa do repositório</span>
+        </div>
+      </div>
+
+      <div class="tree-title">Estrutura</div>
+      <nav class="tree" aria-label="Estrutura do projeto">
+
+        <details open>
+          <summary class="root-summary">📁 Certificados</summary>
+          <div class="children">
+            <a class="file" data-file="Certificados/README.md" href="#file-Certificados%2FREADME.md">
+              <span class="icon">📄</span> README.md
+            </a>
+          </div>
+        </details>
+
+        <details open>
+          <summary class="root-summary">📁 Materias</summary>
+          <div class="children">
+
+            <details open>
+              <summary>📁 Semestre1</summary>
+              <div class="children">
+
+                <details open>
+                  <summary>📁 AlgebraLinearGeometriaAnalitica</summary>
+                  <div class="children">
+                    <a class="file" data-file="Materias/Semestre1/AlgebraLinearGeometriaAnalitica/README.md" href="#file-Materias%2FSemestre1%2FAlgebraLinearGeometriaAnalitica%2FREADME.md">
+                      <span class="icon">📄</span> README.md
+                    </a>
+                    <a class="file" data-file="Materias/Semestre1/AlgebraLinearGeometriaAnalitica/Atividades" href="#folder-Materias%2FSemestre1%2FAlgebraLinearGeometriaAnalitica%2FAtividades">
+                      <span class="icon">📁</span> Atividades
+                    </a>
+                    <a class="file" data-file="Materias/Semestre1/AlgebraLinearGeometriaAnalitica/Aulas" href="#folder-Materias%2FSemestre1%2FAlgebraLinearGeometriaAnalitica%2FAulas">
+                      <span class="icon">📁</span> Aulas
+                    </a>
+                    <a class="file" data-file="Materias/Semestre1/AlgebraLinearGeometriaAnalitica/Resumos" href="#folder-Materias%2FSemestre1%2FAlgebraLinearGeometriaAnalitica%2FResumos">
+                      <span class="icon">📁</span> Resumos
+                    </a>
+                  </div>
+                </details>
+
+                <a class="file" data-file="Materias/Semestre1/BootCamp1" href="#folder-Materias%2FSemestre1%2FBootCamp1">
+                  <span class="icon">📁</span> BootCamp1
+                </a>
+
+                <a class="file" data-file="Materias/Semestre1/CalculoComputacao" href="#folder-Materias%2FSemestre1%2FCalculoComputacao">
+                  <span class="icon">📁</span> CalculoComputacao
+                </a>
+
+                <a class="file" data-file="Materias/Semestre1/IntroducaoComputacao" href="#folder-Materias%2FSemestre1%2FIntroducaoComputacao">
+                  <span class="icon">📁</span> IntroducaoComputacao
+                </a>
+
+                <a class="file" data-file="Materias/Semestre1/POO" href="#folder-Materias%2FSemestre1%2FPOO">
+                  <span class="icon">📁</span> POO
+                </a>
+
+                <a class="file" data-file="Materias/Semestre1/README.md" href="#file-Materias%2FSemestre1%2FREADME.md">
+                  <span class="icon">📄</span> README.md
+                </a>
+              </div>
+            </details>
+          </div>
+        </details>
+
+        <details open>
+          <summary class="root-summary">📁 Perfil</summary>
+          <div class="children">
+            <a class="file" data-file="Perfil/README.md" href="#file-Perfil%2FREADME.md">
+              <span class="icon">📄</span> README.md
+            </a>
+          </div>
+        </details>
+
+        <details open>
+          <summary class="root-summary">📁 Projetos</summary>
+          <div class="children">
+            <a class="file" data-file="Projetos/README.md" href="#file-Projetos%2FREADME.md">
+              <span class="icon">📄</span> README.md
+            </a>
+          </div>
+        </details>
+
+        <a class="file" data-file="README.md" href="#file-README.md">
+          <span class="icon">📄</span> README.md
+        </a>
+
+        <a class="file" data-file="index.html" href="#file-index.html">
+          <span class="icon">◉</span> index.html
+        </a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <section class="hero">
+        <div class="eyebrow">Portfólio acadêmico</div>
+        <h1>Minha jornada na faculdade, organizada em um só lugar.</h1>
+        <p>
+          Uma vitrine para acompanhar atividades, aulas, resumos, certificados e projetos.
+          Use o mapa à esquerda para navegar pelo repositório e abrir os arquivos diretamente nesta página.
+        </p>
+
+        <div class="actions">
+          <a class="button primary" href="#explorer">Explorar repositório ↓</a>
+          <a class="button linkedin" href="https://linkedin.com/in/vazivin" target="_blank" rel="noopener noreferrer">
+            in&nbsp; LinkedIn
+          </a>
+        </div>
+      </section>
+
+      <section class="content-grid" id="explorer">
+        <div class="card viewer">
+          <div class="card-header">
+            <div>
+              <h2 id="viewer-title">Visualizador</h2>
+              <span id="viewer-path">Selecione um arquivo no mapa</span>
+            </div>
+          </div>
+
+          <div class="viewer-body" id="viewer-body">
+            <div class="viewer-empty">
+              <div>
+                <div class="big-icon">🗂️</div>
+                <h3>Selecione um arquivo</h3>
+                <p>
+                  Clique em um README ou arquivo do mapa para visualizar seu conteúdo.
+                  Pastas podem ser expandidas para organizar a navegação.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="card">
+          <div class="card-header">
+            <h2>Visão geral</h2>
+            <span>Mapa atual</span>
+          </div>
+
+          <div class="overview">
+            <div class="stats">
+              <div class="stat">
+                <strong>4</strong>
+                <span>matérias principais</span>
+              </div>
+              <div class="stat">
+                <strong>1</strong>
+                <span>semestre mapeado</span>
+              </div>
+              <div class="stat">
+                <strong>4</strong>
+                <span>áreas acadêmicas</span>
+              </div>
+            </div>
+
+            <div class="quick-links">
+              <a class="quick-link" href="#folder-Materias%2FSemestre1%2FCalculoComputacao">
+                <strong>🧮 Cálculo e Computação</strong>
+                <small>Atividades e materiais da disciplina</small>
+              </a>
+
+              <a class="quick-link" href="#folder-Materias%2FSemestre1%2FPOO">
+                <strong>💻 POO</strong>
+                <small>Programação Orientada a Objetos</small>
+              </a>
+
+              <a class="quick-link" href="#folder-Materias%2FSemestre1%2FIntroducaoComputacao">
+                <strong>🖥️ Introdução à Computação</strong>
+                <small>Conteúdos e exercícios</small>
+              </a>
+
+              <a class="quick-link" href="#folder-Materias%2FSemestre1%2FAlgebraLinearGeometriaAnalitica">
+                <strong>📐 Álgebra Linear e Geometria Analítica</strong>
+                <small>Aulas, atividades e resumos</small>
+              </a>
+
+              <a class="quick-link" href="https://linkedin.com/in/vazivin" target="_blank" rel="noopener noreferrer">
+                <strong>🔗 LinkedIn</strong>
+                <small>linkedin.com/in/vazivin</small>
+              </a>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <footer>
+        Vitrine acadêmica · GitHub Pages · Conteúdo carregado diretamente dos arquivos do repositório
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    /*
+      ============================================================
+      VITRINE ACADÊMICA
+      ============================================================
+
+      Esta página foi baseada no mapa de diretórios fornecido.
+
+      IMPORTANTE:
+      - O arquivo index.html deve ficar na RAIZ do GitHub Pages.
+      - Os caminhos abaixo devem corresponder aos nomes reais das
+        pastas e arquivos do seu repositório.
+      - Se o nome "AlgebraLinearGeometriaAnalitica" estiver diferente
+        no seu repositório, altere esse trecho no menu acima.
+
+      O GitHub Pages não fornece uma API de listagem de pastas.
+      Por isso, a árvore inicial é declarada neste HTML.
+      Os arquivos são carregados dinamicamente com fetch().
+    */
+
+    const viewerTitle = document.getElementById("viewer-title");
+    const viewerPath = document.getElementById("viewer-path");
+    const viewerBody = document.getElementById("viewer-body");
+
+    function toggleMenu() {
+      document.body.classList.toggle("menu-open");
+    }
+
+    function escapeHTML(value) {
+      return value
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function inlineMarkdown(text) {
+      let result = escapeHTML(text);
+
+      // Links Markdown
+      result = result.replace(
+        /\[([^\]]+)\]\(([^)]+)\)/g,
+        '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
+      );
+
+      // Código inline
+      result = result.replace(/`([^`]+)`/g, "<code>$1</code>");
+
+      // Negrito e itálico
+      result = result.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+      result = result.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+
+      return result;
+    }
+
+    function markdownToHTML(markdown) {
+      const lines = markdown.replace(/\r/g, "").split("\n");
+      let html = "";
+      let inCode = false;
+      let codeBuffer = [];
+      let inList = false;
+
+      function closeList() {
+        if (inList) {
+          html += "</ul>";
+          inList = false;
+        }
+      }
+
+      for (const line of lines) {
+        if (line.trim().startsWith("```")) {
+          closeList();
+
+          if (!inCode) {
+            inCode = true;
+            codeBuffer = [];
+          } else {
+            html += `<pre><code>${escapeHTML(codeBuffer.join("\n"))}</code></pre>`;
+            inCode = false;
+          }
+          continue;
+        }
+
+        if (inCode) {
+          codeBuffer.push(line);
+          continue;
+        }
+
+        if (/^###\s+/.test(line)) {
+          closeList();
+          html += `<h3>${inlineMarkdown(line.replace(/^###\s+/, ""))}</h3>`;
+          continue;
+        }
+
+        if (/^##\s+/.test(line)) {
+          closeList();
+          html += `<h2>${inlineMarkdown(line.replace(/^##\s+/, ""))}</h2>`;
+          continue;
+        }
+
+        if (/^#\s+/.test(line)) {
+          closeList();
+          html += `<h1>${inlineMarkdown(line.replace(/^#\s+/, ""))}</h1>`;
+          continue;
+        }
+
+        if (/^>\s?/.test(line)) {
+          closeList();
+          html += `<blockquote>${inlineMarkdown(line.replace(/^>\s?/, ""))}</blockquote>`;
+          continue;
+        }
+
+        if (/^\s*[-*]\s+/.test(line)) {
+          if (!inList) {
+            html += "<ul>";
+            inList = true;
+          }
+          html += `<li>${inlineMarkdown(line.replace(/^\s*[-*]\s+/, ""))}</li>`;
+          continue;
+        }
+
+        if (!line.trim()) {
+          closeList();
+          continue;
+        }
+
+        closeList();
+        html += `<p>${inlineMarkdown(line)}</p>`;
+      }
+
+      closeList();
+
+      if (inCode) {
+        html += `<pre><code>${escapeHTML(codeBuffer.join("\n"))}</code></pre>`;
+      }
+
+      return html;
+    }
+
+    function fileName(path) {
+      return path.split("/").pop();
+    }
+
+    function setActive(path) {
+      document.querySelectorAll(".tree .file").forEach(el => {
+        el.classList.toggle("active", el.dataset.file === path);
+      });
+    }
+
+    async function openFile(path) {
+      setActive(path);
+
+      if (path.endsWith("/")) {
+        showFolder(path);
+        return;
+      }
+
+      viewerTitle.textContent = fileName(path);
+      viewerPath.textContent = path;
+      viewerBody.innerHTML = `
+        <div class="viewer-empty">
+          <div>
+            <div class="big-icon">⏳</div>
+            <h3>Carregando…</h3>
+            <p>Buscando o conteúdo de <code>${escapeHTML(path)}</code>.</p>
+          </div>
+        </div>
+      `;
+
+      try {
+        const response = await fetch(path, { cache: "no-store" });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const content = await response.text();
+        const lower = path.toLowerCase();
+
+        const isMarkdown = lower.endsWith(".md");
+        const isText =
+          isMarkdown ||
+          lower.endsWith(".txt") ||
+          lower.endsWith(".css") ||
+          lower.endsWith(".js") ||
+          lower.endsWith(".json") ||
+          lower.endsWith(".html") ||
+          lower.endsWith(".xml") ||
+          lower.endsWith(".yml") ||
+          lower.endsWith(".yaml");
+
+        const toolbar = `
+          <div class="file-toolbar">
+            <div>
+              <h2>${escapeHTML(fileName(path))}</h2>
+              <div class="path">${escapeHTML(path)}</div>
+            </div>
+            <div class="toolbar-actions">
+              <a class="mini-button" href="${encodeURI(path)}" target="_blank" rel="noopener noreferrer">Abrir arquivo</a>
+              ${isText ? '<button class="mini-button" id="toggle-source">Ver código</button>' : ""}
+            </div>
+          </div>
+        `;
+
+        if (isMarkdown) {
+          viewerBody.innerHTML = toolbar + `
+            <article class="markdown" id="rendered-content">
+              ${markdownToHTML(content)}
+            </article>
+            <pre class="source" id="source-content" hidden>${escapeHTML(content)}</pre>
+          `;
+        } else if (isText) {
+          viewerBody.innerHTML = toolbar + `
+            <pre class="source">${escapeHTML(content)}</pre>
+          `;
+        } else {
+          viewerBody.innerHTML = toolbar + `
+            <div class="welcome">
+              <p>Este tipo de arquivo não possui uma visualização incorporada.</p>
+              <p>Use <strong>“Abrir arquivo”</strong> para visualizar o arquivo diretamente.</p>
+            </div>
+          `;
+        }
+
+        const toggle = document.getElementById("toggle-source");
+
+        if (toggle) {
+          toggle.addEventListener("click", () => {
+            const rendered = document.getElementById("rendered-content");
+            const source = document.getElementById("source-content");
+
+            const showingSource = !source.hidden;
+            source.hidden = showingSource;
+            rendered.hidden = !showingSource;
+            toggle.textContent = showingSource ? "Ver código" : "Ver visualização";
+          });
+        }
+
+        if (window.innerWidth <= 900) {
+          document.body.classList.remove("menu-open");
+        }
+      } catch (error) {
+        viewerBody.innerHTML = `
+          <div class="error">
+            <strong>Não foi possível carregar este arquivo.</strong>
+            <p>
+              Caminho tentado: <code>${escapeHTML(path)}</code><br>
+              Verifique se o nome da pasta/arquivo corresponde exatamente ao
+              nome existente no GitHub. Em servidores Linux, maiúsculas e
+              minúsculas fazem diferença.
+            </p>
+          </div>
+        `;
+      }
+    }
+
+    function showFolder(path) {
+      viewerTitle.textContent = "Pasta";
+      viewerPath.textContent = path;
+      viewerBody.innerHTML = `
+        <div class="viewer-empty">
+          <div>
+            <div class="big-icon">📁</div>
+            <h3>${escapeHTML(path.split("/").filter(Boolean).pop())}</h3>
+            <p>
+              Esta entrada representa uma pasta. Expanda a pasta no mapa à esquerda
+              para acessar os arquivos que foram cadastrados nesta vitrine.
+            </p>
+          </div>
+        </div>
+      `;
+
+      if (window.innerWidth <= 900) {
+        document.body.classList.remove("menu-open");
+      }
+    }
+
+    function handleHash() {
+      const hash = decodeURIComponent(window.location.hash);
+
+      if (hash.startsWith("#file-")) {
+        openFile(hash.substring(6));
+      } else if (hash.startsWith("#folder-")) {
+        showFolder(hash.substring(8));
+      }
+    }
+
+    document.querySelectorAll(".tree .file").forEach(link => {
+      link.addEventListener("click", () => {
+        const path = link.dataset.file;
+        if (link.getAttribute("href").startsWith("#file-")) {
+          openFile(path);
+        } else {
+          showFolder(path);
+        }
+      });
+    });
+
+    window.addEventListener("hashchange", handleHash);
+    window.addEventListener("DOMContentLoaded", handleHash);
+  </script>
 </body>
 </html>
